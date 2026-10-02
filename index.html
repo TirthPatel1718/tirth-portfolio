@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tirth Patel – .NET Backend Developer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#EEF1F6;--surface:#FFFFFF;--ink:#16203A;--muted:#55607A;--line:#CDD4E2;--accent:#512BD4;
+  --get:#1E5FD1;--post:#17724F;--put:#A85A00;--delete:#C62F3E;--on:#FFFFFF;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0F1424;--surface:#171E35;--ink:#E8ECF8;--muted:#9AA5C4;--line:#2A3354;--accent:#9C85FF;--get:#7FB0FF;--post:#58D6A0;--put:#F0A64A;--delete:#FF7A87;--on:#0A0E1B}
+}
+:root[data-theme="dark"]{--bg:#0F1424;--surface:#171E35;--ink:#E8ECF8;--muted:#9AA5C4;--line:#2A3354;--accent:#9C85FF;--get:#7FB0FF;--post:#58D6A0;--put:#F0A64A;--delete:#FF7A87;--on:#0A0E1B}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.6;font-size:17px}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+main{width:100%;max-width:1680px;margin:0 auto;padding:0 clamp(20px,6vw,104px)}
+h1{font-size:clamp(2.8rem,8vw,6.6rem);line-height:1;margin:0 0 14px;font-weight:800;letter-spacing:-.03em}
+h2{font-size:1.6rem;margin:0 0 6px;font-weight:800;letter-spacing:-.02em}
+p{margin:0 0 14px;max-width:62ch}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(28px,5vw,72px);align-items:center;min-height:min(78vh,720px);padding:48px 0 8px}
+.hero-card{align-self:center}
+.hero-card .json{font-size:.9rem}
+@media (max-width:900px){.hero{grid-template-columns:1fr;min-height:0;padding-top:40px}}
+.role{font-size:1.25rem;color:var(--accent);font-weight:600;margin-bottom:16px}
+.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.btn{display:inline-block;padding:10px 18px;border-radius:8px;text-decoration:none;font:inherit;font-weight:600;border:2px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--on)}
+.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:22px 0 18px}
+.tab{--c:var(--get);position:relative;overflow:hidden;text-align:left;font:inherit;cursor:pointer;color:var(--ink);border:1.5px solid var(--line);border-radius:14px;padding:16px 16px 16px 22px;display:flex;flex-direction:column;gap:6px;background:var(--surface);background:linear-gradient(135deg,color-mix(in srgb,var(--c) 14%,var(--surface)),var(--surface) 65%);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.tab[data-m="GET"]{--c:var(--get)}.tab[data-m="POST"]{--c:var(--post)}.tab[data-m="PUT"]{--c:var(--put)}.tab[data-m="DELETE"]{--c:var(--delete)}
+.tab::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--c)}
+.tab::after{content:"Send \203A";position:absolute;right:14px;bottom:12px;font-size:.8rem;font-weight:600;color:var(--c);opacity:0;transform:translateX(-6px);transition:opacity .18s ease,transform .18s ease}
+.tab .m{background:var(--c);color:var(--on);font-weight:600;font-size:.82rem;letter-spacing:.06em;border-radius:6px;padding:2px 10px;align-self:flex-start;box-shadow:0 4px 14px -4px var(--c)}
+.tab .p{font-size:1rem;font-weight:600;margin-top:4px}
+.tab .d{font-size:.9rem;color:var(--muted)}
+.tab:hover,.tab:focus-visible{transform:translateY(-3px);border-color:var(--c);box-shadow:0 12px 26px -12px var(--c)}
+.tab:hover::after,.tab:focus-visible::after,.tab[aria-pressed="true"]::after{opacity:1;transform:none}
+.tab:active{transform:translateY(0) scale(.98)}
+.tab[aria-pressed="true"]{border-color:var(--c);background:var(--surface);background:linear-gradient(135deg,color-mix(in srgb,var(--c) 28%,var(--surface)),color-mix(in srgb,var(--c) 6%,var(--surface)) 80%);box-shadow:0 0 0 1px var(--c),0 14px 30px -14px var(--c)}
+.tab[aria-pressed="true"]::after{content:"Active"}
+@media (prefers-reduced-motion:reduce){.tab,.tab::after{transition:none}.tab:hover,.tab:focus-visible{transform:none}}
+.console{border-radius:12px;overflow:hidden;background:#0D1220;color:#E6EAF5;border:1px solid var(--line)}
+.reqline{padding:14px 18px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:.88rem;border-bottom:1px solid #ffffff22}
+.reqline .m{font-weight:600}
+.reqline .ct{color:#9AA5C4;font-size:.8rem}
+.status{margin-left:auto;font-weight:600}
+.reqline[data-m="GET"] .m,.reqline[data-m="GET"] .status{color:#7FB0FF}
+.reqline[data-m="POST"] .m,.reqline[data-m="POST"] .status{color:#58D6A0}
+.reqline[data-m="PUT"] .m,.reqline[data-m="PUT"] .status{color:#F0A64A}
+.reqline[data-m="DELETE"] .m,.reqline[data-m="DELETE"] .status{color:#FF7A87}
+.json{padding:16px 0;font-size:.92rem;line-height:1.85}
+.json.in{animation:fade .35s ease-out both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.json.in{animation:none}}
+.ln{display:flex;gap:16px;padding:0 20px 0 0}
+.ln:hover{background:#ffffff0f}
+.num{flex:none;width:3.2ch;text-align:right;color:#5C6785;user-select:none;-webkit-user-select:none;padding-left:8px}
+.code{flex:1;min-width:0;padding-left:calc(var(--i)*2.2ch + 2ch);text-indent:-2ch;overflow-wrap:anywhere}
+.ln.top .k{color:#D6DDFF;font-weight:600}
+.json .k{color:#A9B8FF}.json .s{color:#7BE0B0}.json .n{color:#F0A64A}.json .b{color:#FF9DB0}.json .p{color:#7A87A8}
+@media (max-width:560px){.json{font-size:.84rem}.ln{gap:10px}}
+footer{margin:56px 0 0;padding:36px 0 28px;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
+footer h3{margin:0 0 10px;font-size:1.05rem;color:var(--ink);font-weight:600}
+footer p{margin:0 0 8px}
+footer a,footer .linkbtn{color:var(--accent);font:inherit;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+footer ul{list-style:none;margin:0;padding:0}
+footer li{margin:0 0 8px}
+.fname{font-size:1.5rem;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin:0 0 8px}
+.fbar{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;font-size:.85rem}
+.fbar .ok{color:var(--post);font-weight:600}
+
+</style>
+</head>
+<body>
+<main id="top">
+  <div class="hero">
+    <div class="hero-text">
+    <h1>Tirth Patel</h1>
+    <div class="role">.NET Backend Developer</div>
+    <p>I build secure, maintainable REST APIs with ASP.NET Core, Entity Framework Core and SQL Server. This portfolio works like an API: pick a request below and the JSON response shows that part of my work.</p>
+    <div class="links">
+      <button class="btn primary" id="copy" type="button">Copy email</button>
+      <a class="btn" href="https://linkedin.com/in/tirth-patel-272a78382" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <p class="mono" style="margin-top:14px;font-size:.9rem;min-height:1.6em"><span id="msg" aria-live="polite" style="color:var(--post)"></span></p>
+    </div>
+    <div class="console hero-card" aria-label="Quick summary as an API response">
+      <div class="reqline mono" data-m="GET"><span class="m">GET</span><span>/developers/1/summary</span><span class="status">200 OK</span></div>
+      <div class="json mono" id="mini"></div>
+    </div>
+  </div>
+
+  <h2 style="margin-top:44px">Send a request</h2>
+  <div class="tabs" role="group" aria-label="HTTP requests">
+    <button class="tab" data-m="GET" aria-pressed="true"><span class="m mono">GET</span><span class="p mono">/developers/</span><span class="d">Experience and education</span></button>
+    <button class="tab" data-m="POST" aria-pressed="false"><span class="m mono">POST</span><span class="p mono">/projects</span><span class="d">Expense Management System</span></button>
+    <button class="tab" data-m="PUT" aria-pressed="false"><span class="m mono">PUT</span><span class="p mono">/skills</span><span class="d">Technical skills</span></button>
+    <button class="tab" data-m="DELETE" aria-pressed="false"><span class="m mono">DELETE</span><span class="p mono">/manual-work</span><span class="d">What my code replaces</span></button>
+  </div>
+
+  <div class="console">
+    <div class="reqline mono" id="req" data-m="GET"><span class="m" id="rm">GET</span><span id="rp">/developers/1</span><span class="ct">Content-Type: application/json</span><span class="status" id="rs">200 OK</span></div>
+    <div class="json mono" id="out" role="region" aria-label="JSON response" aria-live="polite"></div>
+  </div>
+
+  <footer>
+    <div class="fgrid">
+      <div>
+        <p class="fname">Tirth Patel</p>
+        <p>.NET Backend Developer building secure REST APIs with ASP.NET Core, EF Core and SQL Server. Open to .NET backend roles.</p>
+      </div>
+      <div>
+        <h3>Get in touch</h3>
+        <ul>
+          <li><button class="linkbtn" id="copy2" type="button">Copy email</button> <span id="msg2" aria-live="polite" style="color:var(--post)"></span></li>
+          <li><a href="https://linkedin.com/in/tirth-patel-272a78382" target="_blank" rel="noopener">LinkedIn profile</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Details</h3>
+        <ul>
+          <li>Valsad, Gujarat, India</li>
+          <li>MCA, Sarvajanik College of Engineering &amp; Technology, Surat</li>
+          <li>English, Hindi, Gujarati</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbar mono">
+      <span>&copy; 2026 Tirth Patel</span>
+      <span><span class="ok">200 OK</span> · Built with HTML, CSS and JavaScript</span>
+      <a href="#top">Back to top</a>
+    </div>
+  </footer>
+</main>
+<script>
+(function(){
+var V={
+GET:{p:"/developers/1",s:"200 OK",d:{
+ id:1,name:"Tirth Patel",role:".NET Backend Developer",location:"Valsad, Gujarat, India",
+ experience:[{company:"1RIVET",title:".NET Intern",period:"Jan 2026 - Jun 2026",duration:"6 months",location:"Valsad, Gujarat",highlights:[
+  "Developed and maintained RESTful APIs with ASP.NET Core Web API using a clean, layered architecture",
+  "Implemented full CRUD operations with C#, EF Core and SQL Server, with optimised queries that improved response times",
+  "Applied SOLID principles and the Repository and DTO patterns",
+  "Integrated JWT authentication and role-based authorisation across multiple user roles",
+  "Built Hangfire background jobs for scheduled and deferred processing of reports and notifications",
+  "Designed custom middleware for the request pipeline and centralised global exception handling",
+  "Worked in Agile/Scrum: sprint planning, daily standups, code reviews and Git branching"]}],
+ education:[
+  {degree:"MCA, Master of Computer Applications",institution:"Sarvajanik College of Engineering & Technology, Surat",years:"2024 - 2026",cgpa:7.2},
+  {degree:"BCA, Bachelor of Computer Applications",institution:"Dolat Usha College, Valsad",years:"2021 - 2024"}],
+ languages:["English","Hindi","Gujarati"]}},
+POST:{p:"/projects",s:"201 Created",d:{
+ id:1,developerId:1,name:"Expense Management System",type:"ASP.NET Core Web API",
+ description:"A multi-role REST API where expenses move from submission through manager review to finance sign-off, with status tracked at every stage.",
+ roles:["Employee","Manager","Admin","Finance"],
+ workflow:["Submitted","Manager review","Finance sign-off","Approved or rejected"],
+ features:[
+  "Layered architecture with JWT authentication tied to role-specific permissions",
+  "Automated PDF and Excel report generation to reduce manual reporting effort",
+  "Email notifications for approvals and rejections",
+  "Endpoints documented with Swagger (OpenAPI) for easy testing and handoff"],
+ techStack:["C#","ASP.NET Core","Entity Framework Core","SQL Server","JWT","Hangfire"]}},
+PUT:{p:"/skills",s:"200 OK",d:{
+ languagesAndRuntime:["C#",".NET","ASP.NET Core"],
+ webApi:["ASP.NET Core Web API","RESTful design","Middleware pipeline","Dependency injection"],
+ ormAndDatabase:["Entity Framework Core","SQL Server","SSMS"],
+ architecture:["Layered architecture","SOLID principles","Repository pattern","DTO pattern"],
+ authentication:["JWT","Role-based authorisation"],
+ backgroundJobs:["Hangfire"],
+ testingAndTools:["Swagger (OpenAPI)","Postman","Git","Visual Studio","VS Code"],
+ deployment:["Git branching strategies","CI/CD pipelines"],
+ coreConcepts:["OOP","Exception handling","Logging","Clean code standards"],
+ workingStyle:["Agile/Scrum","Code reviews","Clear technical communication"]}},
+DELETE:{p:"/manual-work",s:"200 OK",d:{
+ deleted:true,
+ removed:[
+  {task:"Manual expense reports",replacedBy:"Automated PDF and Excel report generation"},
+  {task:"Chasing approvals by hand",replacedBy:"Email notifications for approvals and rejections"},
+  {task:"Slow, blocking report and notification tasks",replacedBy:"Hangfire background jobs"},
+  {task:"Error handling repeated in every endpoint",replacedBy:"Custom middleware with global exception handling"}]}}
+};
+function hl(o){
+  var lines=JSON.stringify(o,null,2).split("\n"),h="";
+  lines.forEach(function(l,i){
+    var ind=l.match(/^ */)[0].length/2;
+    var t=l.trim().replace(/&/g,"&amp;").replace(/</g,"&lt;");
+    var top=ind===1&&t.charAt(0)==='"'&&/^"[^"]*":/.test(t);
+    t=t.replace(/("(?:\\.|[^\\"])*"(\s*:)?|\b(?:true|false|null)\b|-?\d+(?:\.\d+)?|[{}\[\],])/g,function(m){
+      var c="n";
+      if(m.charAt(0)==='"'){c=/:$/.test(m)?"k":"s"}else if(m==="true"||m==="false"||m==="null"){c="b"}else if(/^[{}\[\],]$/.test(m)){c="p"}
+      return '<span class="'+c+'">'+m+'</span>';
+    });
+    h+='<div class="ln'+(top?' top':'')+'" style="--i:'+ind+'"><span class="num">'+(i+1)+'</span><span class="code">'+t+'</span></div>';
+  });
+  return h;
+}
+var out=document.getElementById("out"),req=document.getElementById("req"),rm=document.getElementById("rm"),rp=document.getElementById("rp"),rs=document.getElementById("rs");
+var tabs=document.querySelectorAll(".tab"),timer;
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+function show(m){
+  var v=V[m];
+  tabs.forEach(function(t){t.setAttribute("aria-pressed",t.dataset.m===m?"true":"false")});
+  req.dataset.m=m;rm.textContent=m;rp.textContent=v.p;
+  clearTimeout(timer);
+  function render(){rs.textContent=v.s;out.innerHTML=hl(v.d);out.classList.remove("in");void out.offsetWidth;out.classList.add("in")}
+  if(reduce){render();return}
+  rs.textContent="Sending...";timer=setTimeout(render,250);
+}
+tabs.forEach(function(t){t.addEventListener("click",function(){show(t.dataset.m)})});
+show("GET");
+document.getElementById("mini").innerHTML=hl({id:1,name:"Tirth Patel",role:".NET Backend Developer",experience:"6 months",stack:["C#","ASP.NET Core","EF Core","SQL Server"],auth:"JWT + role-based",backgroundJobs:"Hangfire",location:"Valsad, Gujarat"});
+var email="tirtpatel6803@gmail.com";
+function wire(btn,msg){
+  function done(ok){msg.textContent=ok?"Email copied!":"Could not copy. Please try again.";setTimeout(function(){msg.textContent=""},2500)}
+  function fallback(){try{var t=document.createElement("textarea");t.value=email;t.setAttribute("readonly","");t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();var ok=document.execCommand("copy");document.body.removeChild(t);done(ok)}catch(e){done(false)}}
+  btn.addEventListener("click",function(){try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(email).then(function(){done(true)},fallback);return}}catch(e){}fallback()});
+}
+wire(document.getElementById("copy"),document.getElementById("msg"));
+wire(document.getElementById("copy2"),document.getElementById("msg2"));
+})();
+</script>
+</body>
+</html>
