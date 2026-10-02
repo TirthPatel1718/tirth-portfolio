@@ -67,6 +67,13 @@ p{margin:0 0 14px;max-width:62ch}
 .ln.top .k{color:#D6DDFF;font-weight:600}
 .json .k{color:#A9B8FF}.json .s{color:#7BE0B0}.json .n{color:#F0A64A}.json .b{color:#FF9DB0}.json .p{color:#7A87A8}
 @media (max-width:560px){.json{font-size:.84rem}.ln{gap:10px}}
+.backbar{display:none;margin:18px 0}
+@media (max-width:900px){
+  body:not(.detail) #resp{display:none}
+  body.detail .hero,body.detail .reqhead,body.detail .tabs{display:none}
+  body.detail .backbar{display:block}
+  body.detail main{padding-top:calc(8px + env(safe-area-inset-top,0px))}
+}
 footer{margin:56px 0 0;padding:36px 0 28px;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
 footer h3{margin:0 0 10px;font-size:1.05rem;color:var(--ink);font-weight:600}
@@ -99,18 +106,20 @@ footer li{margin:0 0 8px}
     </div>
   </div>
 
-  <h2 style="margin-top:44px">Send a request</h2>
+  <h2 class="reqhead" style="margin-top:44px">Send a request</h2>
   <div class="tabs" role="group" aria-label="HTTP requests">
     <button class="tab" data-m="GET" aria-pressed="true"><span class="m mono">GET</span><span class="p mono">/developers/</span><span class="d">Experience and education</span></button>
-    <button class="tab" data-m="POST" aria-pressed="false"><span class="m mono">POST</span><span class="p mono">/projects</span><span class="d">Expense Management System</span></button>
-    <button class="tab" data-m="PUT" aria-pressed="false"><span class="m mono">PUT</span><span class="p mono">/skills</span><span class="d">Technical skills</span></button>
-    <button class="tab" data-m="DELETE" aria-pressed="false"><span class="m mono">DELETE</span><span class="p mono">/manual-work</span><span class="d">What my code replaces</span></button>
+    <button class="tab" data-m="POST" aria-pressed="false"><span class="m mono">POST</span><span class="p mono">/projects/</span><span class="d">Expense Management System</span></button>
+    <button class="tab" data-m="PUT" aria-pressed="false"><span class="m mono">PUT</span><span class="p mono">/skills/</span><span class="d">Technical skills</span></button>
+    <button class="tab" data-m="DELETE" aria-pressed="false"><span class="m mono">DELETE</span><span class="p mono">/manual-work/</span><span class="d">What my code replaces</span></button>
   </div>
 
-  <div class="console">
-    <div class="reqline mono" id="req" data-m="GET"><span class="m" id="rm">GET</span><span id="rp">/developers/1</span><span class="ct">Content-Type: application/json</span><span class="status" id="rs">200 OK</span></div>
+  <div class="backbar"><button class="btn" type="button" data-back>&lsaquo; Back to requests</button></div>
+  <div class="console" id="resp">
+    <div class="reqline mono" id="req" data-m="GET"><span class="m" id="rm">GET</span><span id="rp">/developers/</span><span class="ct">Content-Type: application/json</span><span class="status" id="rs">200 OK</span></div>
     <div class="json mono" id="out" role="region" aria-label="JSON response" aria-live="polite"></div>
   </div>
+  <div class="backbar"><button class="btn" type="button" data-back>&lsaquo; Back to requests</button></div>
 
   <footer>
     <div class="fgrid">
@@ -215,8 +224,30 @@ function show(m){
   if(reduce){render();return}
   rs.textContent="Sending...";timer=setTimeout(render,250);
 }
-tabs.forEach(function(t){t.addEventListener("click",function(){show(t.dataset.m)})});
+var mq=window.matchMedia("(max-width:900px)"),lastY=0;
+function route(){
+  var h=location.hash.replace(/^#\/?/,"").toUpperCase();
+  if(V[h]){
+    show(h);
+    var d=mq.matches;document.body.classList.toggle("detail",d);
+    if(d)window.scrollTo(0,0);
+  }else{
+    var was=document.body.classList.contains("detail");
+    document.body.classList.remove("detail");
+    if(was)window.scrollTo(0,lastY);
+  }
+}
+tabs.forEach(function(t){t.addEventListener("click",function(){
+  var m=t.dataset.m;
+  if(mq.matches){lastY=window.scrollY;location.hash="#/"+m.toLowerCase()}else{show(m)}
+})});
+document.querySelectorAll("[data-back]").forEach(function(b){b.addEventListener("click",function(){
+  if(location.hash){history.back()}else{route()}
+})});
+window.addEventListener("hashchange",route);
+if(mq.addEventListener){mq.addEventListener("change",route)}else if(mq.addListener){mq.addListener(route)}
 show("GET");
+if(location.hash)route();
 document.getElementById("mini").innerHTML=hl({id:1,name:"Tirth Patel",role:".NET Backend Developer",experience:"6 months",stack:["C#","ASP.NET Core","EF Core","SQL Server"],auth:"JWT + role-based",backgroundJobs:"Hangfire",location:"Valsad, Gujarat"});
 var email="tirtpatel6803@gmail.com";
 function wire(btn,msg){
