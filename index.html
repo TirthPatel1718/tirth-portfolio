@@ -29,6 +29,14 @@ p{margin:0 0 14px;max-width:62ch}
 .hero-card{align-self:center}
 .hero-card .json{font-size:.9rem}
 @media (max-width:900px){.hero{grid-template-columns:1fr;min-height:0;padding-top:40px}}
+.art{position:relative;width:clamp(180px,24vw,290px);margin:0 0 22px}
+.art .avsvg{position:relative;z-index:1}
+.stripes{position:absolute;top:38%;height:30%;width:70%;background:repeating-linear-gradient(135deg,rgba(110,185,222,.5) 0 3px,transparent 3px 9px)}
+.stripes.l{left:-30%}.stripes.r{right:-30%}
+.hero h1{font-size:clamp(2.1rem,5.4vw,4.2rem);font-weight:400;letter-spacing:-.02em;line-height:1.1;margin:0 0 14px}
+.hero h1 strong{font-weight:800}
+.hero h1 .dot{color:#6FB8CF}
+@media (max-width:900px){.hero-text{text-align:center}.hero-text p{margin-left:auto;margin-right:auto}.links{justify-content:center}.art{margin-left:auto;margin-right:auto}}
 .role{font-size:1.25rem;color:var(--accent);font-weight:600;margin-bottom:16px}
 .links{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
 .btn{display:inline-block;padding:10px 18px;border-radius:8px;text-decoration:none;font:inherit;font-weight:600;border:2px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer}
@@ -67,13 +75,30 @@ p{margin:0 0 14px;max-width:62ch}
 .ln.top .k{color:#D6DDFF;font-weight:600}
 .json .k{color:#A9B8FF}.json .s{color:#7BE0B0}.json .n{color:#F0A64A}.json .b{color:#FF9DB0}.json .p{color:#7A87A8}
 @media (max-width:560px){.json{font-size:.84rem}.ln{gap:10px}}
-.backbar{display:none;margin:18px 0}
 @media (max-width:900px){
   body:not(.detail) #resp{display:none}
   body.detail .hero,body.detail .reqhead,body.detail .tabs{display:none}
-  body.detail .backbar{display:block}
-  body.detail main{padding-top:calc(8px + env(safe-area-inset-top,0px))}
+  body.detail main{padding-top:12px}
 }
+.nav{position:sticky;top:0;z-index:20;background:var(--bg);background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.navin{max-width:1680px;margin:0 auto;padding:10px clamp(20px,6vw,104px);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.av{position:relative;flex:none;display:inline-grid;place-items:center;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--accent),var(--post));color:var(--on);font-weight:800;letter-spacing:.02em}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s ease}
+.av.ok img{opacity:1}
+.avsvg{width:100%;height:100%;display:block}
+.av-sm{width:34px;height:34px;font-size:.85rem;background:#DFF1F8}
+.av-lg{width:clamp(96px,12vw,136px);height:clamp(96px,12vw,136px);font-size:clamp(2rem,4vw,2.8rem);margin-bottom:22px;box-shadow:0 0 0 4px var(--bg),0 0 0 7px var(--accent)}
+.brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.pills{display:flex;gap:8px;overflow-x:auto;max-width:100%;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.np{--c:var(--accent);display:inline-flex;align-items:center;gap:8px;flex:none;text-decoration:none;color:var(--ink);border:1.5px solid var(--line);border-radius:999px;padding:5px 14px;font-weight:600;font-size:.88rem;transition:background .15s ease,border-color .15s ease,color .15s ease}
+.np[data-m="GET"]{--c:var(--get)}.np[data-m="POST"]{--c:var(--post)}.np[data-m="PUT"]{--c:var(--put)}.np[data-m="DELETE"]{--c:var(--delete)}
+.mt{font-size:.66rem;font-weight:600;color:var(--c);border:1px solid currentColor;border-radius:4px;padding:0 5px;line-height:1.5}
+.np[aria-current="page"] .mt{color:var(--on)}
+.np:hover{border-color:var(--c);color:var(--c)}
+.np[aria-current="page"]{background:var(--c);border-color:var(--c);color:var(--on)}
+#resp{scroll-margin-top:84px}
+@media (max-width:700px){.mt{display:none}.brand{display:none}.navin{justify-content:center}.np{padding:5px 11px;font-size:.8rem}}
 footer{margin:56px 0 0;padding:36px 0 28px;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
 footer h3{margin:0 0 10px;font-size:1.05rem;color:var(--ink);font-weight:600}
@@ -88,11 +113,46 @@ footer li{margin:0 0 8px}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+<pattern id="bd" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="1.6" cy="1.6" r="1.05" fill="#A9DCEC" opacity=".55"/><circle cx="4.6" cy="4.6" r="1.05" fill="#A9DCEC" opacity=".55"/></pattern>
+<symbol id="avatar" viewBox="0 0 240 240">
+  <g stroke="#7A2BE8" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M30 240C32 204 62 190 100 184L140 184C178 190 208 204 210 240Z" fill="#36B7A2" stroke="none"/>
+    <path d="M30 240C32 204 62 190 100 184M140 184C178 190 208 204 210 240" fill="none"/>
+    <path d="M101 150L101 188Q120 196 139 188L139 150Z" fill="#A9683D"/>
+    <path d="M96 186Q120 202 144 186L145 196Q120 214 95 196Z" fill="#fff" stroke-width="3"/>
+    <ellipse cx="77" cy="112" rx="7" ry="12" fill="#C58A5C"/><ellipse cx="163" cy="112" rx="7" ry="12" fill="#C58A5C"/>
+    <path d="M80 112Q74 108 76 104M160 112Q166 108 164 104" fill="none" stroke-width="2.4"/>
+    <path d="M78 98C78 72 96 60 120 60C144 60 162 72 162 98L162 124C162 154 144 178 120 178C96 178 78 154 78 124Z" fill="#C58A5C"/>
+    <path d="M76 98C68 70 74 48 98 40C116 28 148 30 162 46C172 58 172 80 164 98C162 86 158 80 150 78L140 88L130 80L120 90L108 80L98 88L88 80C80 84 77 90 76 98Z" fill="#23214A"/>
+    <path d="M98 54Q118 42 142 46M112 64Q132 52 152 58" fill="none" stroke-width="2.4"/>
+    <path d="M92 98Q102 92 112 97M128 97Q138 92 148 98" fill="none" stroke-width="6"/>
+    <circle cx="102" cy="108" r="4.6" fill="#2a1a40" stroke="none"/><circle cx="138" cy="108" r="4.6" fill="#2a1a40" stroke="none"/>
+    <path d="M120 108Q113 121 119 124Q127 124 128 121" fill="none" stroke-width="3"/>
+    <path d="M103 146Q120 160 137 146" fill="none" stroke-width="3.2"/>
+  </g>
+</symbol>
+</defs>
+</svg>
+<nav class="nav" aria-label="Main navigation">
+  <div class="navin">
+    <a class="brand" href="#top" data-nav data-m="HOME"><span class="av av-sm"><svg class="avsvg" viewBox="0 0 240 240" aria-hidden="true"><use href="#avatar"/></svg></span>Tirth Patel</a>
+    <div class="pills">
+      <a class="np" href="#top" data-nav data-m="HOME">Home</a>
+      <a class="np" href="#/get" data-nav data-m="GET" title="GET /developers/1"><span class="mt mono">GET</span>About</a>
+      <a class="np" href="#/post" data-nav data-m="POST" title="POST /projects"><span class="mt mono">POST</span>Projects</a>
+      <a class="np" href="#/put" data-nav data-m="PUT" title="PUT /skills"><span class="mt mono">PUT</span>Skills</a>
+      <a class="np" href="#/delete" data-nav data-m="DELETE" title="DELETE /manual-work"><span class="mt mono">DELETE</span>Impact</a>
+    </div>
+  </div>
+</nav>
 <main id="top">
   <div class="hero">
     <div class="hero-text">
-    <h1>Tirth Patel</h1>
-    <div class="role">.NET Backend Developer</div>
+      <div class="art"><span class="stripes l"></span><span class="stripes r"></span><svg class="avsvg" viewBox="0 0 240 240" role="img" aria-label="Illustrated avatar of Tirth Patel"><use href="#avatar"/></svg></div>
+      <h1>Hi, my name is <strong>Tirth</strong><span class="dot">.</span></h1>
+      <div class="role">.NET Backend Developer</div>
     <p>I build secure, maintainable REST APIs with ASP.NET Core, Entity Framework Core and SQL Server. This portfolio works like an API: pick a request below and the JSON response shows that part of my work.</p>
     <div class="links">
       <button class="btn primary" id="copy" type="button">Copy email</button>
@@ -108,18 +168,16 @@ footer li{margin:0 0 8px}
 
   <h2 class="reqhead" style="margin-top:44px">Send a request</h2>
   <div class="tabs" role="group" aria-label="HTTP requests">
-    <button class="tab" data-m="GET" aria-pressed="true"><span class="m mono">GET</span><span class="p mono">/developers/</span><span class="d">Experience and education</span></button>
-    <button class="tab" data-m="POST" aria-pressed="false"><span class="m mono">POST</span><span class="p mono">/projects/</span><span class="d">Expense Management System</span></button>
-    <button class="tab" data-m="PUT" aria-pressed="false"><span class="m mono">PUT</span><span class="p mono">/skills/</span><span class="d">Technical skills</span></button>
-    <button class="tab" data-m="DELETE" aria-pressed="false"><span class="m mono">DELETE</span><span class="p mono">/manual-work/</span><span class="d">What my code replaces</span></button>
+    <button class="tab" data-m="GET" aria-pressed="true"><span class="m mono">GET</span><span class="p mono">/developers/1</span><span class="d">Experience and education</span></button>
+    <button class="tab" data-m="POST" aria-pressed="false"><span class="m mono">POST</span><span class="p mono">/projects</span><span class="d">Expense Management System</span></button>
+    <button class="tab" data-m="PUT" aria-pressed="false"><span class="m mono">PUT</span><span class="p mono">/skills</span><span class="d">Technical skills</span></button>
+    <button class="tab" data-m="DELETE" aria-pressed="false"><span class="m mono">DELETE</span><span class="p mono">/manual-work</span><span class="d">What my code replaces</span></button>
   </div>
 
-  <div class="backbar"><button class="btn" type="button" data-back>&lsaquo; Back to requests</button></div>
   <div class="console" id="resp">
-    <div class="reqline mono" id="req" data-m="GET"><span class="m" id="rm">GET</span><span id="rp">/developers/</span><span class="ct">Content-Type: application/json</span><span class="status" id="rs">200 OK</span></div>
+    <div class="reqline mono" id="req" data-m="GET"><span class="m" id="rm">GET</span><span id="rp">/developers/1</span><span class="ct">Content-Type: application/json</span><span class="status" id="rs">200 OK</span></div>
     <div class="json mono" id="out" role="region" aria-label="JSON response" aria-live="polite"></div>
   </div>
-  <div class="backbar"><button class="btn" type="button" data-back>&lsaquo; Back to requests</button></div>
 
   <footer>
     <div class="fgrid">
@@ -216,7 +274,7 @@ var out=document.getElementById("out"),req=document.getElementById("req"),rm=doc
 var tabs=document.querySelectorAll(".tab"),timer;
 var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
 function show(m){
-  var v=V[m];
+  var v=V[m];curM=m;updateNav();
   tabs.forEach(function(t){t.setAttribute("aria-pressed",t.dataset.m===m?"true":"false")});
   req.dataset.m=m;rm.textContent=m;rp.textContent=v.p;
   clearTimeout(timer);
@@ -224,6 +282,11 @@ function show(m){
   if(reduce){render();return}
   rs.textContent="Sending...";timer=setTimeout(render,250);
 }
+document.querySelectorAll(".av img").forEach(function(im){
+  function ok(){im.parentNode.classList.add("ok")}
+  im.addEventListener("load",ok);
+  if(im.complete&&im.naturalWidth>0)ok();
+});
 var mq=window.matchMedia("(max-width:900px)"),lastY=0;
 function route(){
   var h=location.hash.replace(/^#\/?/,"").toUpperCase();
@@ -236,14 +299,32 @@ function route(){
     document.body.classList.remove("detail");
     if(was)window.scrollTo(0,lastY);
   }
+  updateNav();
 }
-tabs.forEach(function(t){t.addEventListener("click",function(){
-  var m=t.dataset.m;
-  if(mq.matches){lastY=window.scrollY;location.hash="#/"+m.toLowerCase()}else{show(m)}
-})});
-document.querySelectorAll("[data-back]").forEach(function(b){b.addEventListener("click",function(){
-  if(location.hash){history.back()}else{route()}
-})});
+var navs=document.querySelectorAll("[data-nav]"),curM="GET";
+function updateNav(){
+  var det=document.body.classList.contains("detail"),active=(mq.matches&&!det)?"HOME":curM;
+  navs.forEach(function(a){if(a.dataset.m===active){a.setAttribute("aria-current","page")}else{a.removeAttribute("aria-current")}});
+}
+function setHash(h,replace){
+  try{if(replace){history.replaceState(null,"",location.pathname+location.search+h)}else{location.hash=h;return}}catch(e){location.hash=h;return}
+  route();
+}
+function go(m){
+  var det=document.body.classList.contains("detail");
+  if(m==="HOME"){
+    if(mq.matches&&location.hash){setHash("",true);window.scrollTo(0,0)}else{window.scrollTo({top:0,behavior:"smooth"})}
+    return;
+  }
+  if(mq.matches){
+    if(!det)lastY=window.scrollY;
+    setHash("#/"+m.toLowerCase(),det);
+  }else{
+    show(m);document.getElementById("resp").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});
+  }
+}
+tabs.forEach(function(t){t.addEventListener("click",function(){go(t.dataset.m)})});
+navs.forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();go(a.dataset.m)})});
 window.addEventListener("hashchange",route);
 if(mq.addEventListener){mq.addEventListener("change",route)}else if(mq.addListener){mq.addListener(route)}
 show("GET");
